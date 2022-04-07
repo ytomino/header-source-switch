@@ -93,6 +93,7 @@ async function findMatchToCurrent()
 export async function openFileInPane(pane:FilePane)
 {
     let fileName = await findMatchToCurrent();
+    if(!fileName) return;
 
     let viewColumn: any = null;
     let currentColumn = vscode.window.activeTextEditor.viewColumn;
