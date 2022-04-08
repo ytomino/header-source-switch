@@ -1,3 +1,4 @@
-out
-node_modules
-*.vsix 
+node_modules/*
+*.js.map
+*.vsix
+!node_modules/file-exists
