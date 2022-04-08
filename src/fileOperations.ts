@@ -9,14 +9,16 @@ interface FileMapping {
     name: string
 }
 
-export function findMatchedFileAsync(currentFileName:string) : Thenable<string> {
+export function findMatchedFileAsync(currentFileName:string
+): Thenable<string | null>
+{
     let dir = path.dirname(currentFileName);
     let extension = path.extname(currentFileName);
 
     // If there's no extension, then nothing to do
     if (!extension) 
     {
-        return;
+        return Promise.resolve(null);
     }
 
     let fileWithoutExtension = path.basename(currentFileName).replace(extension, '');
@@ -45,7 +47,7 @@ export function findMatchedFileAsync(currentFileName:string) : Thenable<string> 
     
     if (!extensions) {
         console.log("No matching extension found");
-        return;
+        return Promise.resolve(null);;
     }
 
     let extRegex = "(\\" + extensions.join("|\\") + ")$";
@@ -87,7 +89,7 @@ async function findFileAsync(
     fileWithExtension: string,
     fileWithoutExtension: string,
     extRegex: string
-) : Promise<string>
+) : Promise<string | null>
 {
     let files = await vscode.workspace.findFiles('**/' + fileWithoutExtension + '.*');
 
@@ -102,7 +104,7 @@ async function findFileAsync(
 
     if (filteredFiles.length == 0)
     {
-        throw "No files found";
+        return null; // No files found
     }
 
     // Try to order the filepaths based on closeness to original file

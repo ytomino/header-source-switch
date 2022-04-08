@@ -81,7 +81,7 @@ async function openFile(fileName:string, column:vscode.ViewColumn, preserveFocus
     }
 }
 
-async function findMatchToCurrent()
+async function findMatchToCurrent(): Promise<string | null>
 {
     let activeTextEditor = vscode.window.activeTextEditor;
     let document = activeTextEditor.document;
